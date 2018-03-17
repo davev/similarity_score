@@ -22,3 +22,13 @@
 /node_modules
 yarn-debug.log*
 .yarn-integrity
+
+.env.local
+.env.test
+.env.production
+
+# ignore temp notes
+/scratch
+
+# visual studio code
+.vscode/
