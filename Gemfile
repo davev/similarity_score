@@ -39,12 +39,17 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 
+gem 'dotenv-rails', :require => 'dotenv/rails-now'
+
 gem 'rest-client', '~> 1.8'
 gem 'nokogiri', '~> 1.8', '>= 1.8.2'
 
 gem 'soulheart'
 gem 'hiredis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
+
+# http://norman.github.io/friendly_id/file.Guide.html
+gem 'friendly_id'
 
 # async jobs
 gem 'sidekiq', '< 5'

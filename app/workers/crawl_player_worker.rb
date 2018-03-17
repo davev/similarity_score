@@ -49,6 +49,7 @@ class CrawlPlayerWorker
     )
   end
 
+  # TODO
   def persist_player_career_stats
     return if player_model.career_stat.present?
   end
@@ -96,12 +97,12 @@ class CrawlPlayerWorker
       similar_player.assign_attributes(score: score)
       similar_player.save
 
-      # CrawlPlayerWorker.perform_async(handle)
+      CrawlPlayerWorker.perform_async(handle)
     end
   end
 
+  # TODO
   def save_age_similars(grid)
-
 
     # CrawlPlayerWorker.perform_async(handle)
   end
