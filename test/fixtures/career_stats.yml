@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player: one
+  war: 1.5
+  ab: 1
+  r: 1
+  h: 1
+  ba: 1.5
+  hr: 1
+  rbi: 1
+  obp: 1.5
+  slg: 1.5
+  ops: 1.5
+  ops_plus: 1
+
+two:
+  player: two
+  war: 1.5
+  ab: 1
+  r: 1
+  h: 1
+  ba: 1.5
+  hr: 1
+  rbi: 1
+  obp: 1.5
+  slg: 1.5
+  ops: 1.5
+  ops_plus: 1
