@@ -1,5 +1,4 @@
 class SimilarPlayer < ApplicationRecord
   belongs_to :player
-
-  enum status: { batter: 0, pitcher: 1 }
+  belongs_to :related_player, class_name: 'Player'
 end

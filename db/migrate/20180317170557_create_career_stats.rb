@@ -1,7 +1,7 @@
 class CreateCareerStats < ActiveRecord::Migration[5.1]
   def change
     create_table :career_stats do |t|
-      t.references :player, foreign_key: true
+      t.references :player, null: false, foreign_key: true
       t.float :war
       t.integer :ab
       t.integer :r

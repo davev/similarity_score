@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317171741) do
+ActiveRecord::Schema.define(version: 20180317215719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "career_stats", force: :cascade do |t|
-    t.bigint "player_id"
+    t.bigint "player_id", null: false
     t.float "war"
     t.integer "ab"
     t.integer "r"
@@ -37,29 +37,29 @@ ActiveRecord::Schema.define(version: 20180317171741) do
     t.string "name", null: false
     t.integer "active_year_begin"
     t.integer "active_year_end"
-    t.string "handle"
+    t.string "handle", null: false
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "hof", default: false, null: false
     t.index ["handle"], name: "index_players_on_handle", unique: true
     t.index ["name"], name: "index_players_on_name"
   end
 
   create_table "similar_players", force: :cascade do |t|
-    t.bigint "player_id"
-    t.bigint "similar_player_id"
+    t.bigint "player_id", null: false
+    t.bigint "related_player_id", null: false
     t.integer "age"
     t.float "score", null: false
-    t.integer "player_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["player_id", "related_player_id"], name: "index_similar_players_on_player_id_and_related_player_id", unique: true
     t.index ["player_id"], name: "index_similar_players_on_player_id"
-    t.index ["player_type", "age", "score"], name: "index_similar_players_on_player_type_and_age_and_score"
+    t.index ["related_player_id"], name: "index_similar_players_on_related_player_id"
     t.index ["score"], name: "index_similar_players_on_score"
-    t.index ["similar_player_id"], name: "index_similar_players_on_similar_player_id"
   end
 
   add_foreign_key "career_stats", "players"
   add_foreign_key "similar_players", "players"
-  add_foreign_key "similar_players", "players", column: "similar_player_id"
+  add_foreign_key "similar_players", "players", column: "related_player_id"
 end
