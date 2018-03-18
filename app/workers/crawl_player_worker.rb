@@ -47,7 +47,7 @@ class CrawlPlayerWorker
 
     player_model.assign_attributes(
       name: name_node.text,
-      image: image_node&.attr("src")&.value,
+      image: image_node.presence&.attr("src")&.value,
       active_year_begin: active_year_doc.css("table#appearances tbody tr:first th").text,
       active_year_end: active_year_doc.css("table#appearances tbody tr:last th").text,
       hof: player_doc.css("ul#bling li.bling_hof").any?
