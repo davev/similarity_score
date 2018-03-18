@@ -126,7 +126,6 @@ class CrawlPlayerWorker
       regex = /\d+\.\s(?<name>[\w\s\.'"-]+)\s\((?<score>[\d\.]+)\)/
       m = regex.match(str)
 
-      byebug
       name = m[:name]
       score = m[:score]
       hof = str.strip.include? '*'
