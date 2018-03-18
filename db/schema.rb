@@ -66,7 +66,8 @@ ActiveRecord::Schema.define(version: 20180317221315) do
     t.float "score", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["player_id", "related_player_id"], name: "index_similar_players_on_player_id_and_related_player_id", unique: true
+    t.index ["age", "score"], name: "index_similar_players_on_age_and_score"
+    t.index ["player_id", "related_player_id", "age"], name: "idx_similar_player_logical_key", unique: true
     t.index ["player_id"], name: "index_similar_players_on_player_id"
     t.index ["related_player_id"], name: "index_similar_players_on_related_player_id"
     t.index ["score"], name: "index_similar_players_on_score"

@@ -110,6 +110,7 @@ class CrawlPlayerWorker
 
   def save_similar_player(player_html, age: nil)
     return unless player_html
+    handle = nil
 
     player_node = Nokogiri::HTML(player_html).children.last.children.first
     # byebug
@@ -117,13 +118,13 @@ class CrawlPlayerWorker
     if player_html.include? "data-tip"
       # similar by age, 2-10
       #   of the form: <a href=\"/players/s/suareeu01.shtml\" class=\"poptip\" data-tip=\"2. Eugenio Suarez (959.9) \">2</a>
-      str = player_node.children.last.children.last.attr("data-tip")
-      regex = /\d+\.\s(?<name>[\w\s\.]+)\s\((?<score>[\d\.]+)\)/
-      m = regex.match(str)
-
       handle = player_node.children.first.children.last.attr("href")
       return unless handle
       return if handle.include? "comparison.cgi" # skip last link in list for comparing multiple players
+
+      str = player_node.children.last.children.last.attr("data-tip")
+      regex = /\d+\.\s(?<name>[\w\s\.]+)\s\((?<score>[\d\.]+)\)/
+      m = regex.match(str)
 
       name = m[:name]
       score = m[:score]
@@ -148,8 +149,9 @@ class CrawlPlayerWorker
     similar_player = SimilarPlayer.find_or_initialize_by(
       player_id: player_model.id,
       related_player_id: related_player.id,
+      age: age
     )
-    similar_player.assign_attributes(score: score, age: age)
+    similar_player.assign_attributes(score: score)
     similar_player.save
 
     return handle
@@ -157,7 +159,10 @@ class CrawlPlayerWorker
 
   def spawn_jobs(handles)
     handles.compact.uniq.each do |handle|
-      sleep(10) # play nice with server
+      player = Player.find_by(handle: handle)
+      next if player.try(:active_year_begin).present? # skip records in the system, because of throttling below
+
+      sleep(6) # throttle to be a good citizen with server
       CrawlPlayerWorker.perform_async(handle)
     end
   end

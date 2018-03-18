@@ -10,7 +10,7 @@ class CreateSimilarPlayers < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_index :similar_players, [:player_type, :age, :score]
-    add_index :similar_players, [:player_id, :related_player_id], unique: true
+    add_index :similar_players, [:age, :score]
+    add_index :similar_players, [:player_id, :related_player_id, :age], unique: true, name: 'idx_similar_player_logical_key'
   end
 end
