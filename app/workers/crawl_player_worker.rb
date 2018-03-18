@@ -46,7 +46,7 @@ class CrawlPlayerWorker
 
     player_model.assign_attributes(
       name: name_node.text,
-      image: image_node.attr("src").value,
+      image: image_node&.attr("src")&.value,
       active_year_begin: active_year_doc.css("table#appearances tbody tr:first th").text,
       active_year_end: active_year_doc.css("table#appearances tbody tr:last th").text,
       hof: player_doc.css("ul#bling li.bling_hof").any?
@@ -162,7 +162,7 @@ class CrawlPlayerWorker
       player = Player.find_by(handle: handle)
       next if player.try(:scraped?) # optimization to skip records already in the system
 
-      CrawlPlayerWorker.perform_async(handle)
+      # CrawlPlayerWorker.perform_async(handle)
     end
   end
 
