@@ -6,9 +6,10 @@ class CrawlPlayerWorker
 
   attr_reader :path
 
-  def perform(path = nil)
+  def perform(path = nil, recursive: true)
     return unless @path = path
     return if player_model.scraped?
+    @recursive = recursive
 
     persist_player
     persist_player_career_stats
@@ -161,7 +162,7 @@ class CrawlPlayerWorker
       player = Player.find_by(handle: handle)
       next if player.try(:scraped?) # optimization to skip records already in the system
 
-      # CrawlPlayerWorker.perform_async(handle)
+      CrawlPlayerWorker.perform_async(handle) if @recursive
     end
   end
 
