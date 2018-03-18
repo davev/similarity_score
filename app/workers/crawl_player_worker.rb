@@ -162,7 +162,7 @@ class CrawlPlayerWorker
       player = Player.find_by(handle: handle)
       next if player.try(:active_year_begin).present? # skip records in the system, because of throttling below
 
-      sleep(6) # throttle to be a good citizen with server
+      sleep(2) # throttle to be a good citizen with server
       CrawlPlayerWorker.perform_async(handle)
     end
   end
