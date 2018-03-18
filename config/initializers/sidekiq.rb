@@ -1,5 +1,3 @@
-sidekiq_concurrency_number = try_to(8)
-
 
 Sidekiq.configure_server do |config|
   config.redis = { url: (ENV['SIDEKIQ_REDIS_URL'] || ENV['REDIS_URL']), network_timeout: 10 }
@@ -7,7 +5,6 @@ Sidekiq.configure_server do |config|
   if defined?(ActiveRecord::Base)
     config = Rails.application.config.database_configuration[Rails.env]
     config['reaping_frequency'] = (ENV['DATABASE_REAPING_FREQUENCY'] || 10).to_i # seconds
-    config['pool'] = sidekiq_concurrency_number + 2 # Give it some buffer
     ActiveRecord::Base.establish_connection
     Rails.logger.info('Connected to ActiveRecord in Sidekiq')
   end
