@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317221315) do
+ActiveRecord::Schema.define(version: 20180318162859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "career_stats", force: :cascade do |t|
     t.bigint "player_id", null: false
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 20180317221315) do
     t.datetime "updated_at", null: false
     t.boolean "hof", default: false, null: false
     t.string "slug"
+    t.index "name gin_trgm_ops", name: "index_players_on_name_gin_trgm_ops", using: :gin
     t.index ["handle"], name: "index_players_on_handle", unique: true
     t.index ["name"], name: "index_players_on_name"
   end
