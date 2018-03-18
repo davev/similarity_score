@@ -52,7 +52,7 @@ gem 'redis', require: ['redis', 'redis/connection/hiredis']
 gem 'friendly_id'
 
 # async jobs
-gem 'sidekiq', '< 5'
+gem 'sidekiq', '~> 5'
 gem "sidekiq-cron", "~> 0.4.0"
 
 
