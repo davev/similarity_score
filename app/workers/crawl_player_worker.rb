@@ -4,8 +4,7 @@ class CrawlPlayerWorker
 
   BASE_URL = "https://www.baseball-reference.com/"
 
-  # attr_reader :path
-  attr_accessor :path
+  attr_reader :path
 
   def perform(path = nil)
     return unless @path = path
@@ -15,9 +14,10 @@ class CrawlPlayerWorker
     persist_similar_players
   end
 
-  def doc
-    player_doc
-  end
+  # for debugging
+  # def doc
+  #   player_doc
+  # end
 
   private
 
@@ -34,19 +34,21 @@ class CrawlPlayerWorker
   end
 
   def persist_player
+    return if player_model.active_year_begin.present? # already processed this player
+
     name_node = player_doc.css("#meta h1[itemprop='name']")
     image_node = player_doc.css("#meta > div.media-item > img:first")
     active_year_doc = comments_content("//*[@id='all_appearances']")
 
-    return if player_model.active_year_begin.present? # already processed this player
-
-    player_model.update_attributes(
+    player_model.assign_attributes(
       name: name_node.text,
       image: image_node.attr("src").value,
       active_year_begin: active_year_doc.css("table#appearances tbody tr:first th").text,
       active_year_end: active_year_doc.css("table#appearances tbody tr:last th").text,
       hof: player_doc.css("ul#bling li.bling_hof").any?
     )
+
+    player_model.save
   end
 
   # TODO
@@ -77,34 +79,87 @@ class CrawlPlayerWorker
 
 
   def save_career_similars(grid)
+    handles = []
     players = grid.css("ol li")
     players.each do |player|
-      name = player.children.first.text
-      handle = player.children.first.attr("href")
-
-      raw_score_text = player.children.last.text
-      score_regex = /([0-9.]+)/
-      score = score_regex.match(raw_score_text).captures.last
-      hof = raw_score_text.strip.include? '*'
-
-      related_player = Player.find_or_initialize_by(handle: handle)
-      related_player.update_attributes(name: name, hof: hof)
-
-      similar_player = SimilarPlayer.find_or_initialize_by(
-        player_id: player_model.id,
-        related_player_id: related_player.id,
-      )
-      similar_player.assign_attributes(score: score)
-      similar_player.save
-
-      CrawlPlayerWorker.perform_async(handle)
+      handles << save_similar_player(player.children.to_s.strip)
     end
+
+    spawn_jobs(handles)
   end
 
   # TODO
   def save_age_similars(grid)
+    handles = []
+    age_lists = grid.css("ol li")
+    age_lists.each do |age_list|
+      age = age_list.attr("value").to_i
+      next if age.zero?
 
-    # CrawlPlayerWorker.perform_async(handle)
+      # byebug
+      # players = age_list.css("a")
+      players = age_list.children.to_s.strip.split(/\s{3,}/)
+      players.each do |player_html|
+        handles << save_similar_player(player_html, age: age)
+      end
+    end
+
+    spawn_jobs(handles)
+  end
+
+
+  def save_similar_player(player_html, age: nil)
+    return unless player_html
+
+    player_node = Nokogiri::HTML(player_html).children.last.children.first
+    # byebug
+
+    if player_html.include? "data-tip"
+      # similar by age, 2-10
+      #   of the form: <a href=\"/players/s/suareeu01.shtml\" class=\"poptip\" data-tip=\"2. Eugenio Suarez (959.9) \">2</a>
+      str = player_node.children.last.children.last.attr("data-tip")
+      regex = /\d+\.\s(?<name>[\w\s\.]+)\s\((?<score>[\d\.]+)\)/
+      m = regex.match(str)
+
+      handle = player_node.children.first.children.last.attr("href")
+      return unless handle
+      return if handle.include? "comparison.cgi" # skip last link in list for comparing multiple players
+
+      name = m[:name]
+      score = m[:score]
+      hof = str.strip.include? '*'
+
+    else
+      # of the form: <a href="/players/m/mayswi01.shtml">Willie Mays</a> (782.1) *
+      handle = player_node.children.first.attr("href")
+      name = player_node.children.first.text
+
+      raw_score_text = player_node.children.last.text
+      score_regex = /([0-9\.]+)/
+      score = score_regex.match(raw_score_text).captures.last
+      hof = raw_score_text.strip.include? '*'
+    end
+
+
+    related_player = Player.find_or_initialize_by(handle: handle)
+    related_player.assign_attributes(name: name, hof: hof)
+    related_player.save
+
+    similar_player = SimilarPlayer.find_or_initialize_by(
+      player_id: player_model.id,
+      related_player_id: related_player.id,
+    )
+    similar_player.assign_attributes(score: score, age: age)
+    similar_player.save
+
+    return handle
+  end
+
+  def spawn_jobs(handles)
+    handles.compact.uniq.each do |handle|
+      sleep(10) # play nice with server
+      CrawlPlayerWorker.perform_async(handle)
+    end
   end
 
   # some baseball-reference table content is hidden in comments and then splatted into page with JS.  this method grabs the comments and extracts the html structure as a Nokogiri document
