@@ -28,7 +28,7 @@ class CrawlPlayerWorker
 
   def player_doc
     @player_doc ||= begin
-      sleep(2) # be a good citizen of server
+      sleep(rand(1.0...3.0)) # be a good citizen of server
       Nokogiri::HTML(RestClient.get(url))
     end
   end
@@ -123,9 +123,10 @@ class CrawlPlayerWorker
       return if handle.include? "comparison.cgi" # skip last link in list for comparing multiple players
 
       str = player_node.children.last.children.last.attr("data-tip")
-      regex = /\d+\.\s(?<name>[\w\s\.'"]+)\s\((?<score>[\d\.]+)\)/
+      regex = /\d+\.\s(?<name>[\w\s\.'"-]+)\s\((?<score>[\d\.]+)\)/
       m = regex.match(str)
 
+      byebug
       name = m[:name]
       score = m[:score]
       hof = str.strip.include? '*'
