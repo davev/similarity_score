@@ -8,6 +8,7 @@ class CrawlPlayerWorker
 
   def perform(path = nil)
     return unless @path = path
+    return if player_model.scraped?
 
     persist_player
     persist_player_career_stats
@@ -26,7 +27,10 @@ class CrawlPlayerWorker
   end
 
   def player_doc
-    @player_doc ||= Nokogiri::HTML(RestClient.get(url))
+    @player_doc ||= begin
+      sleep(2) # be a good citizen of server
+      Nokogiri::HTML(RestClient.get(url))
+    end
   end
 
   def player_model
@@ -34,7 +38,7 @@ class CrawlPlayerWorker
   end
 
   def persist_player
-    return if player_model.active_year_begin.present? # already processed this player
+    return if player_model.scraped? # already processed this player
 
     name_node = player_doc.css("#meta h1[itemprop='name']")
     image_node = player_doc.css("#meta > div.media-item > img:first")
@@ -77,7 +81,6 @@ class CrawlPlayerWorker
     end
   end
 
-
   def save_career_similars(grid)
     handles = []
     players = grid.css("ol li")
@@ -88,7 +91,6 @@ class CrawlPlayerWorker
     spawn_jobs(handles)
   end
 
-  # TODO
   def save_age_similars(grid)
     handles = []
     age_lists = grid.css("ol li")
@@ -107,13 +109,11 @@ class CrawlPlayerWorker
     spawn_jobs(handles)
   end
 
-
   def save_similar_player(player_html, age: nil)
     return unless player_html
     handle = nil
 
     player_node = Nokogiri::HTML(player_html).children.last.children.first
-    # byebug
 
     if player_html.include? "data-tip"
       # similar by age, 2-10
@@ -123,7 +123,7 @@ class CrawlPlayerWorker
       return if handle.include? "comparison.cgi" # skip last link in list for comparing multiple players
 
       str = player_node.children.last.children.last.attr("data-tip")
-      regex = /\d+\.\s(?<name>[\w\s\.]+)\s\((?<score>[\d\.]+)\)/
+      regex = /\d+\.\s(?<name>[\w\s\.'"]+)\s\((?<score>[\d\.]+)\)/
       m = regex.match(str)
 
       name = m[:name]
@@ -140,7 +140,6 @@ class CrawlPlayerWorker
       score = score_regex.match(raw_score_text).captures.last
       hof = raw_score_text.strip.include? '*'
     end
-
 
     related_player = Player.find_or_initialize_by(handle: handle)
     related_player.assign_attributes(name: name, hof: hof)
@@ -160,9 +159,8 @@ class CrawlPlayerWorker
   def spawn_jobs(handles)
     handles.compact.uniq.each do |handle|
       player = Player.find_by(handle: handle)
-      next if player.try(:active_year_begin).present? # skip records in the system, because of throttling below
+      next if player.try(:scraped?) # optimization to skip records already in the system
 
-      sleep(2) # throttle to be a good citizen with server
       CrawlPlayerWorker.perform_async(handle)
     end
   end
