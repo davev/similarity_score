@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  resources :players, only: [:show]
+
+
 
   require 'sidekiq/web'
   require 'sidekiq/cron/web'

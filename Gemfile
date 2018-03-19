@@ -40,11 +40,13 @@ gem 'jbuilder', '~> 2.5'
 
 
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
+gem 'haml'
+gem 'foundation-rails', '~> 6.4'
 
 gem 'rest-client', '~> 1.8'
 gem 'nokogiri', '~> 1.8', '>= 1.8.2'
 
-gem 'soulheart'
+# gem 'soulheart'
 gem 'hiredis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
 
@@ -72,4 +74,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
+  # haml generators
+  gem 'haml-rails'
 end
