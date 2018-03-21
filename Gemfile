@@ -50,6 +50,8 @@ gem 'nokogiri', '~> 1.8', '>= 1.8.2'
 gem 'hiredis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
 
+gem 'jquery-rails'
+
 # http://norman.github.io/friendly_id/file.Guide.html
 gem 'friendly_id'
 
