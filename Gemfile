@@ -55,7 +55,6 @@ gem 'jquery-rails'
 # http://norman.github.io/friendly_id/file.Guide.html
 gem 'friendly_id'
 
-gem 'simple_form'
 
 # async jobs
 gem 'sidekiq', '~> 5'
