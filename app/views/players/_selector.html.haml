@@ -1,0 +1,48 @@
+:javascript
+  $(function(){
+    $('#player-select').selectize({
+      // theme: 'repositories',
+      valueField: 'slug',
+      labelField: 'name',
+      searchField: 'name',
+      options: [],
+      create: false,
+      render: {
+        option: function(item, escape) {
+          return '<div class="suggestion">' +
+            '<span class="name">' + escape(item.name) + '</span>' +
+            '<span class="years">' + escape(item.active_year_begin) + ' - ' + escape(item.active_year_end) + '</span>' +
+          '</div>';
+        }
+      },
+
+      highlight: false,
+      maxItems: 1,
+      closeAfterSelect: true,
+
+      onChange: function(val) {
+        // console.log(val);
+        document.location = "/players/" + val;
+      },
+
+      load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+          url: "#{players_path}?q=" + encodeURIComponent(query),
+          type: 'GET',
+          error: function() {
+            callback();
+          },
+          success: function(res) {
+            // console.log(res);
+            callback(res);
+          }
+        });
+      }
+    });
+  });
+
+
+%form
+  -# %i.fa.fa-search
+  = text_field_tag 'q', nil, placeholder: 'search for player', id: 'player-select', class: 'player-suggest' #, value: @player.try(:name)

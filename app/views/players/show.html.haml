@@ -1,0 +1,20 @@
+.grid-x.grid-padding-x
+  .small-12.cell
+    = render 'selector'
+
+    %h3= @player.name
+
+    %h6 Similar By Career
+    %ul.similar-career-players
+      - @similar_career_players.each do |similar|
+        %li= link_to similar.related_player.name, similar.related_player
+
+    %h6 Similar By Age
+    %ul
+    - @similar_age_players.each do |similar|
+      %li
+        .related_player
+          = similar.age
+          \/
+          = link_to similar.related_player.name, similar.related_player
+          = similar.related_player.active_year_begin

@@ -11,4 +11,12 @@ class Player < ApplicationRecord
   def scraped?
     active_year_begin.present?
   end
+
+  def as_json(options={})
+    {
+      id: id,
+      slug: slug,
+      name: name
+    }
+  end
 end

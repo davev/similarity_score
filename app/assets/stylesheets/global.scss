@@ -2,10 +2,6 @@ h1, h2, h3 {
   color: $dark-gray;
 }
 
-h1.title, h2.title, h3.title, h4.title {
+header.main {
   border-bottom: 1px dotted $dark-gray;
-}
-
-a {
-  transition: 1s; /* it will be prefixed */
 }

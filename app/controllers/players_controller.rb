@@ -18,8 +18,12 @@ class PlayersController < ApplicationController
   end
 
   def show
-    @player = Player.find_by(name: 'Ernie Banks')
+    @player = Player.find(params[:id])
     @similar_career_players = @player.similar_career_players.includes(:related_player)
+    @similar_age_players = @player.similar_age_players.includes(:related_player)
+
+  rescue ActiveRecord::RecordNotFound => exception
+    redirect_to players_path, notice: 'Player not found.'
   end
 
 end
