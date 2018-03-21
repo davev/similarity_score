@@ -1,10 +1,19 @@
 class PlayersController < ApplicationController
 
   def index
-    if (@query = params[:q]).present?
-      @suggestions = Player.where("name ILIKE concat('%', ?, '%')", @query).order("name").limit(100)
-      render json: @suggestions
+    return unless @query = params[:q]
+
+    if @query.length <= 2
+      # only search hof'ers
+      @suggestions = Player.where(hof: true).where("name ILIKE concat('%', ?, '%')", @query)
+    else
+      # search everyone
+      @suggestions = Player.where("name ILIKE concat('%', ?, '%')", @query)
     end
+
+    @suggestions = @suggestions.limit(200).order(:name)
+
+    render json: @suggestions
 
   end
 

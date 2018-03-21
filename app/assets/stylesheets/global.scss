@@ -2,8 +2,8 @@ h1, h2, h3 {
   color: $dark-gray;
 }
 
-h1.title, h2.title {
-  // text-transform: uppercase;
+h1.title, h2.title, h3.title, h4.title {
+  border-bottom: 1px dotted $dark-gray;
 }
 
 a {
