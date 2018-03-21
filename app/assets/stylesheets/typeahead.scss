@@ -1,14 +1,40 @@
-$search-vertical-padding: 0.5em;
+$search-vertical-padding: 0.7em;
+$search-horizontal-padding: 1em;
+$suggestion-padding: 0.5em;
+
+.selector {
+  margin: 1em 0;
+}
 
 .player-suggest {
   .selectize-input {
+    &.items {
+
+      &:before {
+        position: absolute;
+        top: 0.7em;
+        left: 0;
+        font-family: 'FontAwesome';
+        font-size: 3em;
+        color: #b8b8b8;
+        content: "\f002";
+        // padding-right: 0.5em;
+      }
+    }
+
     input, .item {
       font-size: 3em;
+      color: #666;
+    }
+
+
+    .item {
+      padding-left: $search-horizontal-padding;
+    }
+    input[type=text] {
+      padding-left: $search-horizontal-padding !important;
       padding-top: $search-vertical-padding !important;
       padding-bottom: $search-vertical-padding !important;
-
-      color: #666;
-      // background: transparent;
     }
   }
 }
@@ -57,7 +83,7 @@ $search-vertical-padding: 0.5em;
       float: right
     }
 
-    padding: $search-vertical-padding
+    padding: $suggestion-padding
   }
 
 }

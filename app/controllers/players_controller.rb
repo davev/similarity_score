@@ -23,7 +23,7 @@ class PlayersController < ApplicationController
     @similar_age_players = @player.similar_age_players.includes(:related_player)
 
   rescue ActiveRecord::RecordNotFound => exception
-    redirect_to players_path, notice: 'Player not found.'
+    redirect_to players_path, turbolinks: true, notice: 'Player not found.'
   end
 
 end

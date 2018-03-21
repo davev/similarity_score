@@ -18,11 +18,24 @@
 
       highlight: false,
       maxItems: 1,
+      persist: false,
       closeAfterSelect: true,
+      openOnFocus: false,
+      loadThrottle: 250,
+
 
       onChange: function(val) {
-        // console.log(val);
-        document.location = "/players/" + val;
+        if (val != '') {
+          Turbolinks.visit("/players/" + val);
+        }
+      },
+
+      onFocus: function() {
+        var value = this.getValue();
+        if (value.length > 0) {
+          this.clear(true);
+          // this.$control_input.val(value);
+        }
       },
 
       load: function(query, callback) {
@@ -43,6 +56,7 @@
   });
 
 
-%form
-  -# %i.fa.fa-search
-  = text_field_tag 'q', nil, placeholder: 'search for player', id: 'player-select', class: 'player-suggest' #, value: @player.try(:name)
+.selector
+  %form
+    -# %i.fa.fa-search
+    = text_field_tag 'q', nil, placeholder: 'search for player', id: 'player-select', class: 'player-suggest', value: @player.try(:name)

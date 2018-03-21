@@ -13,10 +13,6 @@ class Player < ApplicationRecord
   end
 
   def as_json(options={})
-    {
-      id: id,
-      slug: slug,
-      name: name
-    }
+    super.slice("id", "name", "slug", "active_year_begin", "active_year_end")
   end
 end
