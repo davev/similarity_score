@@ -53,6 +53,8 @@ gem 'redis', require: ['redis', 'redis/connection/hiredis']
 # http://norman.github.io/friendly_id/file.Guide.html
 gem 'friendly_id'
 
+gem 'simple_form'
+
 # async jobs
 gem 'sidekiq', '~> 5'
 gem "sidekiq-cron", "~> 0.4.0"

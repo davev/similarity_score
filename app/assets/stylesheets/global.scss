@@ -1,0 +1,11 @@
+h1, h2, h3 {
+  color: $dark-gray;
+}
+
+h1.title, h2.title {
+  // text-transform: uppercase;
+}
+
+a {
+  transition: 1s; /* it will be prefixed */
+}

@@ -1,0 +1,7 @@
+%h2.title Similarity Scores
+
+.grid-x.grid-padding-x
+  .small-12.medium-9.large-6.cell
+    %ul
+      - @suggestions.each do |suggestion|
+        %li= suggestion.name
