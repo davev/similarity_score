@@ -1,7 +1,7 @@
 $search-vertical-padding: 0.7em;
 $search-horizontal-padding: 1.25em;
 $suggestion-padding: 0.5em;
-
+$selector-text-height: 1.4em;
 
 .selector {
   margin: 1em 0;
@@ -25,7 +25,7 @@ $suggestion-padding: 0.5em;
       }
     }
 
-    input, .item {
+    input[type=text], .item {
       font-size: 2em;
       @include breakpoint(medium up) { font-size: 3em; }
 
@@ -35,8 +35,10 @@ $suggestion-padding: 0.5em;
 
     .item {
       padding-left: $search-horizontal-padding;
+      line-height: $selector-text-height;
     }
     input[type=text] {
+      height: $selector-text-height;
       padding-left: $search-horizontal-padding !important;
       padding-top: $search-vertical-padding !important;
       padding-bottom: $search-vertical-padding !important;

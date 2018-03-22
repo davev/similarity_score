@@ -68,5 +68,4 @@
 
 .selector
   %form
-    -# %i.fa.fa-search
     = text_field_tag 'q', nil, placeholder: 'search for player', id: 'player-select', class: 'player-suggest', value: @player.try(:name)
