@@ -13,11 +13,11 @@ $(document).on('turbolinks:load', function() {
 $(document).on('click', 'a.popup, a.external', function(event) {
   event.preventDefault();
 
-  var href = $(this).attr("href");
-  var width = $(this).attr("data-width");
-  var height = $(this).attr("data-height");
+  let href = $(this).attr("href");
+  let width = $(this).attr("data-width");
+  let height = $(this).attr("data-height");
 
-  var popup;
+  let popup;
 
   if (width && height) {
     popup = window.open(href, "popup", "height=" + height + ",width=" + width + "");
