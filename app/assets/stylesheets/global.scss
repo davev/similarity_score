@@ -1,4 +1,12 @@
-.fas.fa-star {
+.clickable {
+  cursor: pointer;
+}
+
+i.fas.fa-star {
   color: rgba($primary-color, 0.375);
   // margin: 0 5px;
+}
+
+.grid-container.main {
+  min-height: 500px;
 }
