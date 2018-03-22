@@ -1,7 +1,6 @@
 :javascript
   $(function(){
     $('#player-select').selectize({
-      // theme: 'repositories',
       valueField: 'slug',
       labelField: 'name',
       searchField: 'name',
@@ -14,7 +13,7 @@
             escape(item.name) +
             // '#{content_tag(:i, nil, class: 'fas fa-star')}' +
             '</span>' +
-            '<span class="years">' + escape(item.active_year_begin) + ' - ' + escape(item.active_year_end) + '</span>' +
+            '<span class="years">' + escape(item.active_year_begin || '') + ' - ' + escape(item.active_year_end || '') + '</span>' +
           '</div>';
         }
       },

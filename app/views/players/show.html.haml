@@ -22,7 +22,7 @@
           .small-12.cell
             .player-card.clearfix
               %span.image.float-left
-                = image_tag @player.image
+                = image_tag @player.image if @player.image.present?
 
               %span.float-left
                 %h5.name
