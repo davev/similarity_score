@@ -1,8 +1,10 @@
 %header.main
   .grid-container.clearfix
-    %h4.title.float-left.clickable{'data-url': root_path}
-      Similarity Scores
-      %i.fas.fa-baseball-ball
+    .grid-x.title-grid
+      .small-8.cell.text-left
+        %h4.title.clickable{'data-url': root_path}
+          Similarity Scores
+          %i.fas.fa-baseball-ball
 
-    .float-right
-      = link_to "about", "/about", class: 'about'
+      .small-4.cell.text-right
+        = link_to "about", "/about", class: 'about'
