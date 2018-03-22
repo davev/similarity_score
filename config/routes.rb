@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :players, only: [:index, :show]
 
+  get 'about' => 'pages#about'
 
 
   require 'sidekiq/web'
