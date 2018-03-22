@@ -1,4 +1,4 @@
-%li.clearfix.clickable{"data-url": player_path(player)}
+%li.clearfix.clickable{"data-url": player_path(player), title: "score: #{score}"}
   %span.float-left
     = link_to player.name, player
     = content_tag(:i, nil, class: 'fas fa-star') if player.hof
