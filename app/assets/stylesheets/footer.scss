@@ -1,9 +1,17 @@
 footer.main {
+  // trick from: https://stackoverflow.com/questions/9741701/how-can-i-extend-a-footer-to-bottom-of-page
+  box-shadow: 0 50vh 0 50vh $dark-gray;
+
+  background-color: $dark-gray;
+
   margin-top: 6rem;
-  padding: 3em;
+  padding: 3em 0;
   font-size: 0.8em;
   color: $light-gray;
-  background-color: $dark-gray;
+  a {
+    color: $light-gray;
+    text-decoration: underline;
+  }
 
   i.fa-star {
     color: $light-gray;

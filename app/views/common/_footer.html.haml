@@ -1,9 +1,14 @@
 %footer.main
   .grid-container.clearfix
     .grid-x.grid-padding-x
-      .medium-6.cell
+      .medium-6.cell.text-left
         %i.fas.fa-star
         indicates HOF status
 
-      .medium-6.cell
-        built by Dave VanderKloot
+      .medium-6.cell.text-right.credits
+        %p by Dave VanderKloot
+
+        %ul.no-bullet
+          %li data from #{link_to 'baseball-reference.com', 'https://www.baseball-reference.com'}
+
+          %li #{link_to 'Similarity Score formula', 'https://www.baseball-reference.com/about/similarity.shtml'} by #{link_to 'Bill James', 'https://en.wikipedia.org/wiki/Bill_James'}
