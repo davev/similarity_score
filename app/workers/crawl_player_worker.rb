@@ -2,7 +2,7 @@ class CrawlPlayerWorker
   include Sidekiq::Worker
 
 
-  BASE_URL = "https://www.baseball-reference.com/"
+  BASE_URL = ENV.fetch('BASEBALL_REFERENCE_URL')
 
   attr_reader :path
 

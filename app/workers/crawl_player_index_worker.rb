@@ -2,7 +2,7 @@ class CrawlPlayerIndexWorker
   include Sidekiq::Worker
 
 
-  BASE_URL = "https://www.baseball-reference.com/"
+  BASE_URL = ENV.fetch('BASEBALL_REFERENCE_URL')
 
 
   def perform
