@@ -4,7 +4,7 @@
   margin-top: 2em;
 
   .tabs {
-    background: #f0f0f0;
+    background: $light-background-color;
   }
 
   .tabs-content {
@@ -14,5 +14,20 @@
 
   .tabs-panel {
     padding: 1rem 0;
+  }
+}
+
+.player-meta {
+  .player-card {
+    background-color: $light-background-color;
+
+    h5.name {
+      // margin-top: 0.5em;
+      margin-bottom: 0;
+    }
+
+    .image {
+      margin-right: 0.5em;
+    }
   }
 }
