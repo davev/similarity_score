@@ -86,8 +86,15 @@ $suggestion-padding: 0.5em;
     .name {
       float: left;
     }
+
     .years {
       float: right
+    }
+
+    .fa-star {
+      font-size: 0.65em;
+      vertical-align: middle;
+      padding-left: 0.4em;
     }
 
     padding: $suggestion-padding

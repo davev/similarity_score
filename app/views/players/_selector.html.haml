@@ -1,4 +1,12 @@
 :javascript
+  var yearsActiveRange = function(yearBegin, yearEnd) {
+    return (!yearBegin ? '' : yearBegin + ' - ' + yearEnd);
+  };
+
+  var hofIndicator = function(hof) {
+    return (hof ? '#{content_tag(:i, nil, class: 'fas fa-star')}' : '');
+  };
+
   $(function(){
     $('#player-select').selectize({
       valueField: 'slug',
@@ -11,9 +19,9 @@
           return '<div class="suggestion">' +
             '<span class="name">' +
             escape(item.name) +
-            // '#{content_tag(:i, nil, class: 'fas fa-star')}' +
+            hofIndicator(item.hof) +
             '</span>' +
-            '<span class="years">' + escape(item.active_year_begin || '') + ' - ' + escape(item.active_year_end || '') + '</span>' +
+            '<span class="years">' + escape(yearsActiveRange(item.active_year_begin, item.active_year_end)) + '</span>' +
           '</div>';
         }
       },
@@ -23,7 +31,7 @@
       persist: false,
       closeAfterSelect: true,
       openOnFocus: false,
-      loadThrottle: 250,
+      // loadThrottle: 250,
 
 
       onChange: function(val) {
@@ -33,7 +41,7 @@
       },
 
       onFocus: function() {
-        var value = this.getValue();
+        let value = this.getValue();
         if (value.length > 0) {
           this.clear(true);
           // this.$control_input.val(value);

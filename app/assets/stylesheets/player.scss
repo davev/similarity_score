@@ -15,6 +15,10 @@
   .tabs-panel {
     padding: 1rem 0;
   }
+
+  .tabs-title > a:focus, .tabs-title > a[aria-selected='true'] {
+    background: #fefefe;
+  }
 }
 
 .player-meta {
@@ -26,8 +30,8 @@
       margin-bottom: 0;
     }
 
-    .image {
-      margin-right: 0.5em;
+    .summary {
+      margin-left: 0.5em;
     }
   }
 }

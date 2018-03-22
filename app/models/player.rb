@@ -29,7 +29,7 @@ class Player < ApplicationRecord
   end
 
   def as_json(options={})
-    super.slice("id", "name", "slug", "active_year_begin", "active_year_end")
+    super.slice("id", "name", "slug", "active_year_begin", "active_year_end", "hof")
   end
 
 end
