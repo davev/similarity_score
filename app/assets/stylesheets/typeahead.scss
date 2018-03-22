@@ -1,5 +1,5 @@
 $search-vertical-padding: 0.7em;
-$search-horizontal-padding: 1em;
+$search-horizontal-padding: 1.25em;
 $suggestion-padding: 0.5em;
 
 .selector {
@@ -14,11 +14,10 @@ $suggestion-padding: 0.5em;
         position: absolute;
         top: 0.7em;
         left: 0;
-        font-family: 'FontAwesome';
+        font-family: 'Font Awesome\ 5 Free';
         font-size: 3em;
         color: #b8b8b8;
         content: "\f002";
-        // padding-right: 0.5em;
       }
     }
 

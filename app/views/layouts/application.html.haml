@@ -17,15 +17,20 @@
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Lato:400,400italic,300italic,300,700,700italic'
 
 
+    - # selectize
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js'
     = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.default.min.css'
 
-    -# = stylesheet_link_tag '//use.fontawesome.com/releases/v5.0.8/css/all.css', 'integrity': "sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S", 'crossorigin': 'anonymous'
-    = stylesheet_link_tag "//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css", media: "all"
+    -# fontawesome
+    = stylesheet_link_tag '//use.fontawesome.com/releases/v5.0.8/css/solid.css', integrity: "sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk", crossorigin: "anonymous"
+    -# = stylesheet_link_tag '//use.fontawesome.com/releases/v5.0.8/css/regular.css', integrity: "sha384-A/oR8MwZKeyJS+Y0tLZ16QIyje/AmPduwrvjeH6NLiLsp4cdE4uRJl8zobWXBm4u", crossorigin: "anonymous"
+    = stylesheet_link_tag '//use.fontawesome.com/releases/v5.0.8/css/fontawesome.css', integrity: "sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P", crossorigin: "anonymous"
+
+
   %body
     = render 'common/browser_update'
 
-    .grid-container
-      = render 'common/header'
+    = render 'common/header'
 
+    .grid-container
       = yield

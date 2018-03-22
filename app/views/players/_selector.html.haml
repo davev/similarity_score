@@ -10,7 +10,10 @@
       render: {
         option: function(item, escape) {
           return '<div class="suggestion">' +
-            '<span class="name">' + escape(item.name) + '</span>' +
+            '<span class="name">' +
+            escape(item.name) +
+            // '#{content_tag(:i, nil, class: 'fas fa-star')}' +
+            '</span>' +
             '<span class="years">' + escape(item.active_year_begin) + ' - ' + escape(item.active_year_end) + '</span>' +
           '</div>';
         }

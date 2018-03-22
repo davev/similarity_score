@@ -1,0 +1,23 @@
+h1, h2, h3, h4, h5, h6 {
+  color: $dark-gray;
+}
+
+header.main {
+  // background-color: #3355b1;
+  background-color: $primary2-color;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $light-gray;
+    margin: 0.25em;
+  }
+
+  .title i {
+    padding-left: 0.15em;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+}
