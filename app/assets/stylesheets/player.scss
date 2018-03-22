@@ -1,5 +1,3 @@
-.grid-career {}
-
 .grid-age {
   margin-top: 2em;
 
@@ -32,6 +30,15 @@
 
     .summary {
       margin-left: 0.5em;
+    }
+  }
+}
+
+
+ul.similar-career-players, ul.similar-age-players {
+  li {
+    &:hover {
+      background-color: $light-background-color;
     }
   }
 }

@@ -7,17 +7,12 @@
     %h4 Most Similar By Career
     .grid-x.grid-margin-x.grid-career
       .medium-5.cell
-        - if @player.similar_career_players.none?
+        - if @player.similar_careers.none?
           %em no similar career data
         - else
           %ul.no-bullet.similar-career-players
-            - @player.similar_career_players.each do |similar_player|
-              %li.clearfix{"data-url": players_path(similar_player)}
-                %span.float-left
-                  = link_to similar_player.name, similar_player
-                  = content_tag(:i, nil, class: 'fas fa-star') if similar_player.hof
-                %span.float-right
-                  = active_years(similar_player)
+            - @player.similar_careers.each do |similar_career|
+              = render 'player_list_item', player: similar_career.related_player, score: similar_career.score
 
 
       .medium-7.cell
@@ -49,19 +44,14 @@
               %li.tabs-title{class: i==0 ? 'is-active' : ''}= link_to(year, "#panel-#{year}")
 
           .tabs-content{'data-tabs-content': 'age-tabs'}
-            - @player.similar_ages.group_by(&:age).each_with_index do |(similar_age_group, similar_player_collection), i|
-              .tabs-panel{id: "panel-#{similar_age_group}", class: i==0 ? 'is-active' : ''}
+            - @player.similar_ages.group_by(&:age).each_with_index do |(year, similar_age_collection), i|
+              .tabs-panel{id: "panel-#{year}", class: i==0 ? 'is-active' : ''}
 
                 .grid-x.grid-margin-x
                   .medium-5.cell
-                    %h5= "Age #{similar_age_group}"
+                    %h5= "Age #{year}"
                     %ul.no-bullet.similar-age-players
-                      - similar_player_collection.collect(&:related_player).each do |similar_player|
-                        %li.clearfix{"data-url": players_path(similar_player)}
-                          %span.float-left
-                            = link_to similar_player.name, similar_player
-                            = content_tag(:i, nil, class: 'fas fa-star') if similar_player.hof
-                          %span.float-right
-                            = active_years(similar_player)
+                      - similar_age_collection.each do |similar_age|
+                        = render 'player_list_item', player: similar_age.related_player, score: similar_age.score
 
                   .medium-7.cell
