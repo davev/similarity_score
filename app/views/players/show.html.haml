@@ -48,10 +48,10 @@
               .tabs-panel{id: "panel-#{year}", class: i==0 ? 'is-active' : ''}
 
                 .grid-x.grid-margin-x
-                  .medium-5.cell
+                  .medium-6.mediumplus-5.cell
                     %h5= "Age #{year}"
                     %ul.no-bullet.similar-age-players
                       - similar_age_collection.each do |similar_age|
                         = render 'player_list_item', player: similar_age.related_player, score: similar_age.score
 
-                  .medium-7.cell
+                  .medium-6.mediumplus-7.cell
