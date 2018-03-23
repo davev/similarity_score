@@ -6,7 +6,7 @@
 
     %h4 Most Similar By Career
     .grid-x.grid-margin-x.grid-career
-      .medium-5.cell
+      .medium-6.mediumplus-5.cell
         - if @player.similar_careers.none?
           %em no similar career data
         - else
@@ -15,7 +15,7 @@
               = render 'player_list_item', player: similar_career.related_player, score: similar_career.score
 
 
-      .medium-7.cell
+      .medium-6.mediumplus-7.cell
         .grid-x.grid-padding-x.player-meta
           .small-12.cell
             .player-card.clearfix
