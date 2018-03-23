@@ -7,7 +7,7 @@ $selector-text-height: 1.4em;
   margin-bottom: 1rem;
 }
 
-.player-suggest {
+.player-select {
   .selectize-input {
     &.items {
 
@@ -47,7 +47,7 @@ $selector-text-height: 1.4em;
 }
 
 
-.selectize-control.single.player-suggest {
+.selectize-control.single.player-select {
   .selectize-input {
     &.input-active {
       background-color: transparent;
