@@ -39,10 +39,15 @@ $selector-text-height: 1.4em;
     }
     input[type=text] {
       height: $selector-text-height;
+      line-height: $selector-text-height !important;
       padding-left: $search-horizontal-padding !important;
       padding-top: $search-vertical-padding !important;
       padding-bottom: $search-vertical-padding !important;
     }
+
+    // input::placeholder {
+    //   color: #f00;
+    // }
   }
 }
 
