@@ -1,9 +1,65 @@
-%h3 About This Project
+.grid-x.grid-padding-x
+  .small-12.medium-9.large-8.cell
+    %h3 About This Project
 
-%h5 TL;DR
-%p
-  summary here
+    %h4 TL;DR
+    %p
+      #{link_to_similarity_scores_description} (concept by #{link_to 'Bill James', 'https://en.wikipedia.org/wiki/Bill_James'}) are a fun (and conversation-starting) way to compare players statistically across baseball history.   Using data pulled from #{link_to 'baseball-reference.com', 'https://www.baseball-reference.com'}, this experimental project creates a fast-performing, mobile-optimized user experience to click through statistically related players in a "six degrees of separation" manner.  For each player in the system, users are able to view the 10 most similar players by career, and the 10 most similar players by age for every year of a player's career.
 
-%h6 Details
-%p
-  longer description here, in columns?
+    %hr
+
+    %h4 How This Was Made
+
+    %ul
+      %li
+        %h5 ETL the data from baseball-reference.com
+        %p
+          This included the challenge of extracting data embedded inside html comments (not the DOM).  The XPath logic and pattern matching required substantial experimentation and testing.  Data was ingested asynchronously using background job workers (Sidekiq).  The approach was to have thousands of small jobs operating in parallel, one player at a time.  I started with a "patient zero" (Ernie Banks) and pulled their data.  For each player's data in the ETL process, the system would recursively spawn a job for each related player, and those jobs in turn would spawn jobs for each of their related players.  The data was loaded into a relational Postgres database with a data model for player metadata and tracking relationships between similar players.
+
+        %p
+          Example: in the case of Ernie Banks, he played for 19 seasons.  The job to ingest his data also spawned individual jobs to pull the data for the 10 most similar players by career, and also the 10 most similar players by age, per year.  So the ETL job for Ernie Banks spawned 200 (10 + 190) other jobs recursively.  And each of those jobs in turn did the same thing.  This "explosive recursion" was managed with a job queue to limit the number of jobs working in parallel at any given time.  To be a good citizen of baseball-reference.com, any network calls to the site were throttled by pausing for a randomized and arbitrary number of seconds before each request to minimize load on the server.
+
+        %p
+          The queue quickly achieved an equilibrium between 30k-50k jobs in it.  The system was optimized so that jobs returned early if the player's data had already been ingested.  After the system had run for several hours,
+          some adjustments were needed to handle names containing hyphens or apostrophes.  Once i paused processing of the queue, and updated the algorithm with the updates, the system was able to "catch up" with the ~50k jobs in the queue, and finish in a matter of hours.
+
+      %li
+        %h5 An interesting test of the "six degrees of separation" concept
+        %p
+          Interestingly, the above organic algorithm successfully imported ALL players in baseball history that qualified to be in rated with a Similarity Score, except for 4 players: Aaron Judge (2016-2017), Andy Larkin (1996-2000), Bill Joyce (1890-1898), and Jerry Dorgan (1880-1885).  Those 4 players have scores for similar players to themselves, but the inverse is NOT true: NONE of them are considered similar players to others.
+
+      %li
+        %h5 Proving Completeness
+        %p
+          After using the recursive method above, I crawled the alphabetical index of players by letter, and submitted every major league player on baseball-reference.com to the ETL system outlined above.  It added the 4 players above, to yield 9,266 players as of 2017 who qualify to be considered in the Similar Scores system.  It also added another 9,917 players who have stats on baseball-reference.com but do not have enough appearances to have a Similarity Score.  So the total number of players in this system (player data through 2017 season) is 19,183.
+
+        %p
+          Fun fact, i used appearances data to store the earliest and latest appearances in a career.  There was only one player who did not have a career range based on this appearance data: Mark Kiger.  That's because he's the only player in major league history who didn't have any regular season appearances.  His entire career existed in the 2006 ALCS.
+
+
+      %li
+        %h5 Database performance for quick player search
+        %p
+          In addition to normal indexes on the database to tune performance, I needed to optimize doing an in-string (ILIKE) text search on player names for the auto-suggest feature in the app.  I used a #{link_to_trigram 'trigram index'} on player names which speeds up performance on these queries by a factor of at least 100x.  Trigrams are words broken up into sequences of 3 letters.
+        %code
+          // example:
+          select show_trgm('billy williams');<br>
+          > {"  b","  w"," bi"," wi",ams,bil,iam,ill,lia,lli,lly,"ly ","ms ",wil}
+        %p
+
+      %li
+        %h5 Web application
+        %p
+          The web app was created as a lightweight, responsive (works well across any breakpoint from mobile to desktop) website with fast performance.  All of the similarity score data can be experienced in other places, such as baseball-reference.com, but this app is intended as an optimized/streamlined user experience.
+
+        %p
+          Technology used:
+          %ul
+            %li Ruby on Rails (web MVC framework)
+            %li Postgres (relational database)
+            %li Redis (cache and nosql datastore for Sidekiq)
+            %li Sidekiq (asynchronous jobs/queues)
+            %li Nokogiri (XPath and CSS parser)
+            %li Foundation (CSS grid/framework)
+            %li Selectize (typeahead library)
+            %li [HTML, SCSS, JS, SQL]
