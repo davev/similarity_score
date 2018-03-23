@@ -36,7 +36,13 @@
 
       onChange: function(val) {
         if (val != '') {
-          Turbolinks.visit("/players/" + val);
+          let path = "/players/" + val;
+
+          if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
+            Turbolinks.visit(path);
+          } else {
+            window.location.assign(path);
+          }
         }
       },
 
