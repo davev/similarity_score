@@ -7,24 +7,42 @@ $selector-text-height: 1.4em;
   margin-bottom: 1rem;
 }
 
+
+@keyframes rotate {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+
+
 .player-select {
+  .selectize-input.items:before {
+    position: absolute;
+    top: 0.7em;
+    left: 3px;
+    font-family: 'Font Awesome\ 5 Free';
+
+    font-size: 2em;
+    @include breakpoint(medium up) { font-size: 3em; }
+
+    background: transparent;
+    color: #b8b8b8;
+    content: "\f002";
+  }
+
+  // spinner
+  &.loading .selectize-input.items:before {
+    content: "\f1ce";
+    animation: rotate 2s linear infinite;
+    // transform-origin: 50% 50% 0px;
+
+    display: block;
+    text-align: center;
+    width: 1em;
+    height: 0.5em;
+  }
+
+
   .selectize-input {
-    &.items {
-
-      &:before {
-        position: absolute;
-        top: 0.7em;
-        left: 0;
-        font-family: 'Font Awesome\ 5 Free';
-
-        font-size: 2em;
-        @include breakpoint(medium up) { font-size: 3em; }
-
-        color: #b8b8b8;
-        content: "\f002";
-      }
-    }
-
     input[type=text], .item {
       font-size: 2em;
       @include breakpoint(medium up) { font-size: 3em; }

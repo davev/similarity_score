@@ -12,9 +12,7 @@ class PlayersController < ApplicationController
     end
 
     @suggestions = @suggestions.limit(200).order(:name)
-
     render json: @suggestions
-
   end
 
   def show
