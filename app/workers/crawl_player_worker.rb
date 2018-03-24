@@ -61,10 +61,37 @@ class CrawlPlayerWorker
     player_model.save
   end
 
-  # TODO
   def persist_player_career_stats
     return if player_model.career_stat.present? && !@opts[:force_stats]
+
+    career_stat = player_model.build_career_stat(
+      war: career_stat_content("war").presence&.to_f&.round(1),
+
+      # hitting
+      ab: career_stat_content("ab").presence&.to_i,
+      r: career_stat_content("r").presence&.to_i,
+      h: career_stat_content("h").presence&.to_i,
+      ba: career_stat_content("ba").presence&.to_f,
+      hr: career_stat_content("hr").presence&.to_i,
+      rbi: career_stat_content("rbi").presence&.to_i,
+      obp: career_stat_content("obp").presence&.to_f,
+      slg: career_stat_content("slg").presence&.to_f,
+      ops: career_stat_content("ops").presence&.to_f,
+      ops_plus: career_stat_content("ops+").presence,
+
+      # pitching
+      w: career_stat_content("w").presence&.to_i,
+      l: career_stat_content("l").presence&.to_i,
+      era: career_stat_content("era").presence&.to_f,
+      g: career_stat_content("g").presence&.to_i,
+      ip: career_stat_content("ip").presence&.to_f,
+      so: career_stat_content("so").presence&.to_i,
+      whip: career_stat_content("whip").presence&.to_f
+    )
+    career_stat.save
   end
+
+
 
   def persist_similar_players
     return if player_model.similar_career_players.any? && !@opts[:force_similar]
@@ -179,5 +206,9 @@ class CrawlPlayerWorker
     html = raw_comments.gsub("<!--","").gsub("-->","").gsub("\n", '')
 
     doc = Nokogiri::HTML(html)
+  end
+
+  def career_stat_content(stat)
+    player_doc.xpath("//*[@id='info']/div[@class='stats_pullout']//*[@class='poptip'][text()='#{stat.upcase}']/../p").text
   end
 end
