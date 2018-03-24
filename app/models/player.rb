@@ -10,6 +10,7 @@ class Player < ApplicationRecord
   # has_many :similar_age_players, through: :similar_ages, source: :related_player
 
   scope :scraped, -> { where.not(active_year_begin: nil) }
+  scope :random, -> (count) { order(:random).limit(1) }
 
 
   def similar_age_years

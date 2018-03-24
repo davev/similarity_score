@@ -2,7 +2,9 @@ Rails.application.routes.draw do
 
   root 'players#index'
 
-  resources :players, only: [:index, :show]
+  resources :players, only: [:index, :show] do
+    get :random, on: :collection
+  end
 
   get 'about' => 'pages#about'
 

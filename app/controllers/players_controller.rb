@@ -19,7 +19,12 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:id])
 
   rescue ActiveRecord::RecordNotFound => exception
-    redirect_to players_path, turbolinks: true, notice: 'Player not found.'
+    redirect_to players_path, notice: 'Player not found.'
+  end
+
+  def random
+    player = Player.limit(1).order("RANDOM()").first
+    redirect_to player, notice: 'hello world' and return
   end
 
 end

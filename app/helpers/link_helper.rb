@@ -23,4 +23,8 @@ module LinkHelper
     link_to text, 'https://about.gitlab.com/2016/03/18/fast-search-using-postgresql-trigram-indexes/'
   end
 
+  def link_to_random_player(text = 'random player')
+    link_to text, random_players_path, data: { turbolinks: 'false' }
+  end
+
 end
