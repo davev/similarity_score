@@ -60,6 +60,10 @@ gem 'friendly_id'
 gem 'sidekiq', '~> 5'
 gem "sidekiq-cron", "~> 0.4.0"
 
+# error reporting
+gem 'rollbar'
+
+
 
 
 group :development, :test do
