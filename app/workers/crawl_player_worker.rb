@@ -6,10 +6,15 @@ class CrawlPlayerWorker
 
   attr_reader :path
 
-  def perform(path = nil, recursive: true)
+  def perform(path, opts={})
     return unless @path = path
-    return if player_model.scraped?
-    @recursive = recursive
+
+    @opts = opts.with_indifferent_access.reverse_merge({
+      recursive: true,
+      force_player: false,
+      force_stats: false,
+      force_similar: false
+    })
 
     persist_player
     persist_player_career_stats
@@ -29,7 +34,7 @@ class CrawlPlayerWorker
 
   def player_doc
     @player_doc ||= begin
-      sleep(rand(1.0...3.0)) # be a good citizen of server
+      sleep(rand(2.0...5.0)) # be a good citizen of server
       Nokogiri::HTML(RestClient.get(url))
     end
   end
@@ -39,7 +44,7 @@ class CrawlPlayerWorker
   end
 
   def persist_player
-    return if player_model.scraped? # already processed this player
+    return if player_model.scraped? && !@opts[:force_player] # already processed this player
 
     name_node = player_doc.css("#meta h1[itemprop='name']")
     image_node = player_doc.css("#meta > div.media-item > img:first")
@@ -58,11 +63,11 @@ class CrawlPlayerWorker
 
   # TODO
   def persist_player_career_stats
-    return if player_model.career_stat.present?
+    return if player_model.career_stat.present? && !@opts[:force_stats]
   end
 
   def persist_similar_players
-    return if player_model.similar_career_players.any?
+    return if player_model.similar_career_players.any? && !@opts[:force_similar]
 
     similarity_scores_doc = comments_content("//*[@id='all_ss_other']")
 
@@ -118,7 +123,7 @@ class CrawlPlayerWorker
 
     if player_html.include? "data-tip"
       # similar by age, 2-10
-      #   of the form: <a href=\"/players/s/suareeu01.shtml\" class=\"poptip\" data-tip=\"2. Eugenio Suarez (959.9) \">2</a>
+      #   of the form: <a href="/players/s/suareeu01.shtml" class="poptip" data-tip="2. Eugenio Suarez (959.9) ">2</a>
       handle = player_node.children.first.children.last.attr("href")
       return unless handle
       return if handle.include? "comparison.cgi" # skip last link in list for comparing multiple players
@@ -158,11 +163,13 @@ class CrawlPlayerWorker
   end
 
   def spawn_jobs(handles)
+    return unless @opts[:recursive]
+
     handles.compact.uniq.each do |handle|
       player = Player.find_by(handle: handle)
       next if player.try(:scraped?) # optimization to skip records already in the system
 
-      CrawlPlayerWorker.perform_async(handle) if @recursive
+      CrawlPlayerWorker.perform_async(handle)
     end
   end
 
