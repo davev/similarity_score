@@ -1,14 +1,13 @@
 header.main {
-  // background-color: #3355b1;
   background-color: $primary3-color;
 
-  h1, h2, h3, h4, h5, h6 {
+  h1.title {
     color: $light-gray;
+    font-size: 1.5625rem;
+    font-weight: normal;
     margin: 0.25em;
-  }
 
-  .title i {
-    padding-left: 0.15em;
+    i { padding-left: 0.15em; }
   }
 
   a {

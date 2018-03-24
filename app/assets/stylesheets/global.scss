@@ -4,6 +4,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: $dark-gray;
+  // font-weight: bold;
 }
 
 
@@ -25,3 +26,9 @@ i.fas.fa-star {
 section.what-is-this {
   margin-top: 6rem;
 }
+
+// section.about {
+//   h3, h4, h5, h6 {
+//     font-weight: bold;
+//   }
+// }
