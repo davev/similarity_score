@@ -7,12 +7,14 @@
     %title= content_for?(:title) ? yield(:title) : "Similarity Scores"
     = csrf_meta_tag
 
+    = render 'common/favicon'
+
     -# = stylesheet_link_tag "application"
     -# = javascript_include_tag "application", "data-turbolinks-track" => true
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
 
     - # google fonts
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Lato:400,400italic,300italic,300,700,700italic'
