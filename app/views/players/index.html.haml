@@ -2,3 +2,15 @@
 .grid-x.grid-padding-x
   .small-12.cell
     = render 'selector'
+
+.grid-x.grid-padding-x
+  .small-12.medium-9.large-8.cell
+    %section.what-is-this
+      %h5 What is this?
+
+      %p
+        #{link_to_similarity_scores_description} (concept by #{link_to_bill_james}) are a fun way to compare players statistically across baseball history. For each player in the system, users are able to view the 10 most similar players by career, and the 10 most similar players by age for every year of a player's career.  Get started by searching for a MLB player (past or present) above.
+
+      %p
+        = link_to 'Read more details', about_path
+        about this project.
