@@ -209,6 +209,6 @@ class CrawlPlayerWorker
   end
 
   def career_stat_content(stat)
-    player_doc.xpath("//*[@id='info']/div[@class='stats_pullout']//*[@class='poptip'][text()='#{stat.upcase}']/../p").last.text
+    player_doc.xpath("//*[@id='info']/div[@class='stats_pullout']//*[@class='poptip'][text()='#{stat.upcase}']/../p").last&.text
   end
 end
