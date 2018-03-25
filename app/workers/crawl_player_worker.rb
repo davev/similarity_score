@@ -64,7 +64,7 @@ class CrawlPlayerWorker
   def persist_player_career_stats
     return if player_model.career_stat.present? && !@opts[:force_stats]
 
-    # byebug
+    byebug
 
     career_stat = player_model.build_career_stat(
       war: career_stat_content("war").presence&.to_f&.round(1),
@@ -211,6 +211,6 @@ class CrawlPlayerWorker
   end
 
   def career_stat_content(stat)
-    player_doc.xpath("//*[@id='info']/div[@class='stats_pullout']//*[@class='poptip'][text()='#{stat.upcase}']/../p").text
+    player_doc.xpath("//*[@id='info']/div[@class='stats_pullout']//*[@class='poptip'][text()='#{stat.upcase}']/../p").last.text
   end
 end
