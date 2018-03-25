@@ -3,13 +3,13 @@
 - if player.hitter?
   .cell
     %label WAR
-    .stat= stat.war
+    .stat= stat.war.round(1)
   .cell
     %label OPS+
     .stat= stat.ops_plus
   .cell
     %label OPS
-    .stat= stat.ops
+    .stat= stat.ops.round(3)
   .cell
     %label HR
     .stat= stat.hr
@@ -23,13 +23,13 @@
 - if player.pitcher?
   .cell
     %label WAR
-    .stat= stat.war
+    .stat= stat.war.round(1)
   .cell
     %label WHIP
-    .stat= stat.whip
+    .stat= stat.whip.round(3)
   .cell
     %label IP
-    .stat= stat.ip
+    .stat= stat.ip.round(1)
   .cell
     %label W
     .stat= stat.w
