@@ -9,7 +9,7 @@
     .stat= stat.ops_plus
   .cell
     %label OPS
-    .stat= stat.ops.round(3)
+    .stat= format_avg(stat.ops.round(3))
   .cell
     %label HR
     .stat= stat.hr
