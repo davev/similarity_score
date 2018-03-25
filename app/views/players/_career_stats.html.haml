@@ -1,0 +1,41 @@
+- stat = player.career_stat
+
+- if player.hitter?
+  .cell
+    %label WAR
+    .stat= stat.war
+  .cell
+    %label OPS+
+    .stat= stat.ops_plus
+  .cell
+    %label OPS
+    .stat= stat.ops
+  .cell
+    %label HR
+    .stat= stat.hr
+  .cell
+    %label RBI
+    .stat= stat.rbi
+  .cell
+    %label H
+    .stat= stat.h
+
+- if player.pitcher?
+  .cell
+    %label WAR
+    .stat= stat.war
+  .cell
+    %label WHIP
+    .stat= stat.whip
+  .cell
+    %label IP
+    .stat= stat.ip
+  .cell
+    %label W
+    .stat= stat.w
+  .cell
+    %label L
+    .stat= stat.l
+  .cell
+    %label SO
+    .stat= stat.so

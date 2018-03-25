@@ -33,4 +33,11 @@ class Player < ApplicationRecord
     super.slice("id", "name", "slug", "active_year_begin", "active_year_end", "hof")
   end
 
+  def hitter?
+    @hitter ||= career_stat&.ab&.present?
+  end
+
+  def pitcher?
+    @pitcher ||= career_stat&.ip&.present?
+  end
 end

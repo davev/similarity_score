@@ -28,7 +28,10 @@
                 %h6.years= active_years(@player)
                 %p= link_to_baseball_reference_player(@player)
 
-
+            .player-card
+              .stat-card
+                .grid-x.grid-padding-x.grid-padding-y.small-up-6.medium-up-3.mediumplus-up-6
+                  = render 'career_stats', player: @player
 
 
     .grid-x.grid-margin-x.grid-age

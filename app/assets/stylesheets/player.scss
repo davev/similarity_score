@@ -25,13 +25,31 @@
 
     background-color: $light-background-color;
 
+    .summary {
+      margin-left: 0.5em;
+    }
+
     h5.name {
       margin-bottom: 0;
     }
 
-    .summary {
-      margin-left: 0.5em;
+
+    .stat-card {
+      .cell {
+        text-align: center;
+
+        label {
+          color: $dark-gray;
+          font-size: 0.8em;
+        }
+
+        .stat {
+          font-weight: bold;
+          font-size: 0.8em;
+        }
+      }
     }
+
   }
 }
 
