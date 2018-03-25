@@ -22,11 +22,19 @@
 .player-meta {
   .player-card {
     margin-top: 0.3rem;
-
     background-color: $light-background-color;
 
     .summary {
       margin-left: 0.5em;
+
+      .link-to-stats {
+        i {
+          position: relative;
+          top: -0.1em;
+          opacity: 0.4;
+          font-size: 0.7em;
+        }
+      }
     }
 
     h5.name {
