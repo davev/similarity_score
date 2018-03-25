@@ -34,7 +34,7 @@
             .player-card
               .stat-card
                 .grid-x.grid-padding-x.grid-padding-y.small-up-6.medium-up-3.mediumplus-up-6
-                  = # render 'career_stats', player: @player
+                  = render 'career_stats', player: @player if @player.active_year_end < 2017
 
 
     .grid-x.grid-margin-x.grid-age
