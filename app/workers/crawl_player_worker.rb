@@ -64,7 +64,8 @@ class CrawlPlayerWorker
   def persist_player_career_stats
     return if player_model.career_stat.present? && !@opts[:force_stats]
 
-    career_stat = player_model.build_career_stat(
+    career_stat = player_model.career_stat || player_model.build_career_stat
+    career_stat = assign_attributes(
       war: career_stat_content("war").presence&.to_f&.round(1),
 
       # hitting
