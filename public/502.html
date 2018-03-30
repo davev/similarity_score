@@ -226,11 +226,11 @@
   <body class="plain error-page-wrapper background-color background-image">
     <div class="content-container">
 	<div class="head-line secondary-text-color">
-		422
+		502
 	</div>
 	<div class="subheader primary-text-color">
-		The change you wanted <br>
-		was rejected.
+		Looks like we're having <br>
+		some server issues.
 	</div>
     <hr>
     <div class="clearfix"></div>
@@ -307,7 +307,7 @@
 
 
      ErrorPage.prototype.handleStatusFetchSuccess = function (pageType, data) {
-       if (pageType == '422') {
+       if (pageType == '502') {
          $('#replace-with-fetched-data').html(data.status.description);
        } else {
          if (!!data.scheduled_maintenances.length) {
@@ -334,7 +334,7 @@
        var url = ''
          , self = this;
 
-       if (pageType == '422') {
+       if (pageType == '502') {
          url = pageUrl + '/api/v2/status.json';
        }
        else {
@@ -353,7 +353,7 @@
        });
 
      };
-     var ep = new ErrorPage('body', "422", "plain");
+     var ep = new ErrorPage('body', "502", "plain");
      ep.initialize();
 
      // hack to make sure content stays centered >_<
