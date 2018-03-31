@@ -1,3 +1,3 @@
 ## README
 
-see about page.
+see the about page.
