@@ -16,6 +16,11 @@
 
       %ul
         %li
+          %h5 2018 Update
+          %p
+            The data has been updated with statistics from the 2018 season (and new players who debuted in the 2018 season) from #{link_to_baseball_reference}.  There were a total of 247 new players, and 30,176 new "similar player" relationships.  There are now a total of 19,430 players in the system.  See below for the original details using data through the 2017 season.
+
+        %li
           %h5 ETL the data from baseball-reference.com
           %p
             This included the challenge of extracting data embedded inside html comments (not the DOM).  The XPath logic and pattern matching required substantial experimentation and testing.  Data was ingested asynchronously using background job workers (Sidekiq).  The approach was to have thousands of small jobs operating in parallel, one player at a time.  I started with a "patient zero" (Ernie Banks) and pulled their data.  For each player's data in the ETL process, the system would recursively spawn a job for each related player, and those jobs in turn would spawn jobs for each of their related players.  The data was loaded into a relational Postgres database with a data model for player metadata and tracking relationships between similar players.
@@ -30,7 +35,7 @@
         %li
           %h5 An interesting test of the "six degrees of separation" concept
           %p
-            Interestingly, the above organic algorithm successfully imported ALL players in baseball history that qualified to be in rated with a Similarity Score, except for 4 players: Aaron Judge (2016-2017), Andy Larkin (1996-2000), Bill Joyce (1890-1898), and Jerry Dorgan (1880-1885).  Those 4 players have scores for similar players to themselves, but the inverse is NOT true: NONE of them are considered similar players to others.
+            Interestingly, the above organic algorithm successfully imported ALL players in baseball history that qualified to be rated with a Similarity Score, except for 4 players: Aaron Judge (2016-2017), Andy Larkin (1996-2000), Bill Joyce (1890-1898), and Jerry Dorgan (1880-1885).  Those 4 players have scores for similar players to themselves, but the inverse is NOT true: NONE of them are considered similar players to others.
 
         %li
           %h5 Proving Completeness
