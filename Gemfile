@@ -43,7 +43,7 @@ gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem 'haml'
 gem 'foundation-rails', '~> 6.4'
 
-gem 'rest-client', '~> 1.8'
+gem 'rest-client', '~> 2.0.2'
 gem 'nokogiri', '~> 1.8', '>= 1.8.2'
 
 # gem 'soulheart'
