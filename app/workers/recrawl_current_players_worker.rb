@@ -11,7 +11,7 @@ class RecrawlCurrentPlayersWorker
       recursive: false
     })
 
-    Player.where("active_year_end >= 2017").find_each(batch_size: 200) do |player|
+    Player.where("active_year_end >= 2018").find_each(batch_size: 200) do |player|
       CrawlPlayerWorker.perform_async(player.handle, opts)
     end
   end
