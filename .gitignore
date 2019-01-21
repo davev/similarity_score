@@ -32,3 +32,5 @@ yarn-debug.log*
 
 # visual studio code
 .vscode/
+
+.idea/
